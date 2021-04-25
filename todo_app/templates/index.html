@@ -1,28 +1,31 @@
 {% extends "layout.html" %}
 {% block title %}To-Do App{% endblock %}
-
+<script src="lib/script.js"></script>
+function updateStatusToComplete() {
+  #document.getElementById(name).style.backgroundColor='red';
+  alert('Hi');
+}
 {% block content %}
   <div class="jumbotron">
     <h1 class="display-4">To-Do App</h1>
     <p class="lead">Just another to-do app.</p>
   </div>
-
   <div class="row">
     <div class="col-md-12">
       <h2>Items</h2>
       <ul class="list-group mb-4">
         <!-- List the todo items here -->
         {% for item in items %}
-          <li> {{item.title}} - {{item.status}} </li>
+        <li>{{item.title}} - {{item.status}}</li>
         {% endfor %}
       </ul>
     </div>
   </div>
   <div class="row">
     <form action="/addItem" method="POST">
-        <h2><label for="name">Enter your TODO item: </label></h2>
+        <h2><label for="id">Enter your TODO item: </label></h2>
         <input type="text" name="title" id="title" required>
-        <input type="submit" value="Submit">
+        <input type="submit" value="Add">
     </form>
 </div>
 {% endblock %}
