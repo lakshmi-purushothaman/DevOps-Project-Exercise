@@ -67,3 +67,17 @@ def save_item(item):
     session['items'] = updated_items
 
     return item
+
+def delete_item(item):
+    """
+    Delets an existing item in the session. If no existing item matches the ID of the specified item, nothing is deleted.
+
+    Args:
+        item: The item to delete.
+    """
+    existing_items = get_items()
+    try:
+        existing_items.remove(item)
+        session['items'] = existing_items
+    except ValueError:
+        print('Item doesnot exist')
