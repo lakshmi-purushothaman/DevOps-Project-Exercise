@@ -4,6 +4,8 @@ from todo_app.flask_config import Config
 
 from todo_app.data import session_items as session
 
+from todo_app.data import todo as todo
+
 app = Flask(__name__)
 app.config.from_object(Config)
 
@@ -11,7 +13,7 @@ app.config.from_object(Config)
 @app.route('/')
 def index():
 #Code that fetches all the TODO items from session
-    items = session.get_items()
+    items = todo.get_items()
     return render_template('index.html', items=items)
 
 @app.route('/addItem', methods=['POST'])
@@ -21,7 +23,7 @@ def addItem():
     if title == '':
         flash('Please enter a task')
     else:
-        session.add_item(title)   
+        todo.add_item(title)   
     return redirect(url_for('index'))
 
 @app.route('/markCompleted', methods=['POST'])
