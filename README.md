@@ -41,6 +41,7 @@ And then add the generated API Key, Token that you want to create in the .env fi
 * TRELLO_API_KEY
 * TRELLO_TOKEN
 ```
+Trello board name is defaulted to 'Devops Course Project Board'
 ## Running the App
 
 Once the all dependencies have been installed, start the Flask app in development mode within the poetry environment by running:
