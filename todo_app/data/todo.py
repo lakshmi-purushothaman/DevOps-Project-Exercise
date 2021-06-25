@@ -3,15 +3,17 @@ from flask import session
 from todo_app.data.Item import Item
 import requests, os
 
-TRELLO_API_KEY = os.environ.get('TRELLO_API_KEY')
-TRELLO_TOKEN = os.environ.get('TRELLO_TOKEN')
-TRELLO_BOARD_NAME = "Devops Course Project Board"
+
 
 class TodoService:
     def __init__(self):
         self.board_id = None
         self.todo_list_id = None
         self.done_list_id = None
+        self.doing_list_id = None
+        self.TRELLO_API_KEY = os.environ.get('TRELLO_API_KEY')
+        self.TRELLO_TOKEN = os.environ.get('TRELLO_TOKEN')
+        self.TRELLO_BOARD_NAME = "Devops Course Project Board"
         self.setup_board()
 
     def _url(self, path):
@@ -25,9 +27,9 @@ class TodoService:
 
     def create_board(self):
         query = {
-            'key': TRELLO_API_KEY,
-            'token': TRELLO_TOKEN,
-            'name': TRELLO_BOARD_NAME
+            'key': self.TRELLO_API_KEY,
+            'token': self.TRELLO_TOKEN,
+            'name': self.TRELLO_BOARD_NAME
         }
         response = requests.post(self._url('boards'), params=query).json()
         self.board_id = response['id']
@@ -39,13 +41,13 @@ class TodoService:
         If default board name exists set the id to board id.
         """
         query = {
-        'key': TRELLO_API_KEY,
-        'token': TRELLO_TOKEN
+        'key': self.TRELLO_API_KEY,
+        'token': self.TRELLO_TOKEN
         }
         response = requests.get(self._url(f'members/me/boards'), params=query).json()
 
         for boards in response:
-            if boards['name'] == TRELLO_BOARD_NAME and boards['closed'] == False:
+            if boards['name'] == self.TRELLO_BOARD_NAME and boards['closed'] == False:
                 self.board_id = boards['id']
     
     def setup_board_lists(self):
@@ -54,8 +56,8 @@ class TodoService:
 
         """
         query = {
-        'key': TRELLO_API_KEY,
-        'token': TRELLO_TOKEN
+        'key': self.TRELLO_API_KEY,
+        'token': self.TRELLO_TOKEN
         }
         response = requests.get(self._url(f'boards/{self.board_id}/lists'), params=query).json()
         for list in response:
@@ -63,6 +65,8 @@ class TodoService:
                 self.todo_list_id = list['id']
             elif list['name'] == "Done":
                 self.done_list_id = list['id']
+            elif list['name'] == "Doing":
+                self.doing_list_id = list['id']
 
     def get_items(self):
         """
@@ -72,15 +76,23 @@ class TodoService:
             list: The list of todo items.
         """
         query = {
-        'key': TRELLO_API_KEY,
-        'token': TRELLO_TOKEN
+        'key': self.TRELLO_API_KEY,
+        'token': self.TRELLO_TOKEN
         }
         response = requests.get(self._url(f'boards/{self.board_id}/cards'), params=query).json()
+        
+        status_dict = {
+            self.todo_list_id : 'Todo',
+            self.doing_list_id : 'Doing',
+            self.done_list_id : 'Done'
+        }
 
         items = []
 
         for card in response:
-            status = "Completed" if card['dueComplete'] == True else "Not Started"
+            card_idlist = card['idList']
+
+            status = status_dict[card_idlist]
             
             item = Item(id=card['id'], title=card['name'], status=status)
 
@@ -98,8 +110,8 @@ class TodoService:
         """
 
         query = {
-        'key': TRELLO_API_KEY,
-        'token': TRELLO_TOKEN,
+        'key': self.TRELLO_API_KEY,
+        'token': self.TRELLO_TOKEN,
         'idList': self.todo_list_id,
         'name': title
         }
@@ -107,18 +119,48 @@ class TodoService:
         response = requests.post(self._url('cards'), params=query).json()
 
 
-    def complete_item(self, id):
+    def move_to_done(self, id):
         """
-        Updates an existing item to Complete in the Trell board.
+        Updates an existing item to Done in the Trell board.
 
         Args:
             item: The item to save.
         """
         query = {
-        'key': TRELLO_API_KEY,
-        'token': TRELLO_TOKEN,
+        'key': self.TRELLO_API_KEY,
+        'token': self.TRELLO_TOKEN,
         'idList': self.done_list_id,
         'dueComplete': 'true'
+        }
+        requests.put(self._url(f'cards/{id}'), params=query)
+
+    def move_to_doing(self, id):
+        """
+        Updates an existing item to Doing in the Trell board.
+
+        Args:
+            item: The item to save.
+        """
+        query = {
+        'key': self.TRELLO_API_KEY,
+        'token': self.TRELLO_TOKEN,
+        'idList': self.doing_list_id,
+        'dueComplete': 'false'
+        }
+        requests.put(self._url(f'cards/{id}'), params=query)
+
+    def move_to_todo(self, id):
+        """
+        Updates an existing item to Todo in the Trell board.
+
+        Args:
+            item: The item to save.
+        """
+        query = {
+        'key': self.TRELLO_API_KEY,
+        'token': self.TRELLO_TOKEN,
+        'idList': self.todo_list_id,
+        'dueComplete': 'false'
         }
         requests.put(self._url(f'cards/{id}'), params=query)
 
@@ -131,8 +173,8 @@ class TodoService:
         """
 
         query = {
-        'key': TRELLO_API_KEY,
-        'token': TRELLO_TOKEN
+        'key': self.TRELLO_API_KEY,
+        'token': self.TRELLO_TOKEN
         }
         
         response = requests.delete(self._url(f'cards/{id}'), params=query).json()
