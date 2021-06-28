@@ -4,7 +4,7 @@
   <div class="row mb-4">
     <div class="col-md-12">
       <h2>Add Item</h2>
-        <form action="{{ url_for('addItem') }}" method="POST">
+        <form action="{{ url_for('addItem') }}" id="addTitleForm" method="POST">
           <div class="form-row">
             <div class="form-group col-md-8">
               <input type="text" class="form-control" name="title" id="title" required>
@@ -25,7 +25,7 @@
   </div>
   <div class="row">
     <div class="col-md-12">
-      <h2>Items</h2>
+      <h2>To Do Items</h2>
       <table class="table table-bordered mb-4">
         <thead class="thead-dark">
           <tr>
@@ -36,20 +36,18 @@
           </tr>
         </thead>
         <tbody>
-          {% for item in items %}
-              <tr>
+          {% for item in view_model.todo_items %}
+              <tr id='todo_item_{{loop.index}}'>
                 <td>{{loop.index}}</td>
                 <td>{{item.title}}</td>
                 <td>{{item.status}}</td>
 
                 <td class="d-flex justify-content-center">
 
-                  {% if item.status != 'Completed' %}
-                    <form action="{{ url_for('markComplete') }}" method="post">
-                      <input type="hidden" name="todo_id" value='{{ item.id}}'>
-                      <button type="submit" class="btn btn-outline-success mr-2">Done</button>
-                    </form>
-                  {% endif %}
+                  <form action="{{ url_for('moveToDoing') }}" method="post">
+                    <input type="hidden" name="todo_id" value='{{ item.id}}'>
+                    <button type="submit" id = "start_todo_item_{{loop.index}}" class="btn btn-outline-success mr-2">Start</button>
+                  </form>
 
                   <form action="{{ url_for('deleteItem') }}" method="post">
                     <input type="hidden" name="todo_id" value='{{ item.id }}'>
@@ -62,5 +60,88 @@
         </tbody>
       </table>
     </div>
+  </div>
+  <div>
+    <div class="row">
+      <div class="col-md-12">
+        <h2>Doing Items</h2>
+        <table class="table table-bordered mb-4">
+          <thead class="thead-dark">
+            <tr>
+              <th>#</th>
+              <th>Title</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for item in view_model.doing_items %}
+                <tr id='doing_item_{{loop.index}}'>
+                  <td>{{loop.index}}</td>
+                  <td>{{item.title}}</td>
+                  <td>{{item.status}}</td>
+  
+                  <td class="d-flex justify-content-center">
+  
+                     <form action="{{ url_for('moveToDone') }}" method="post">
+                      <input type="hidden" name="todo_id" value='{{ item.id}}'>
+                      <button type="submit" id = "done_todo_item_{{loop.index}}" class="btn btn-outline-success mr-2">Done</button>
+                    </form>
+  
+                    <form action="{{ url_for('deleteItem') }}" method="post">
+                      <input type="hidden" name="todo_id" value='{{ item.id }}'>
+                      <button type="submit" class="btn btn-outline-danger ml-1"  onclick="return confirm('Are you sure?')">Delete</i></button>
+                    </form>
+  
+                  </td>
+                </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+  </div>
+  <div>
+    <div class="row">
+      <div class="col-md-12">
+        <h2>Done Items</h2>
+        <table class="table table-bordered mb-4">
+          <thead class="thead-dark">
+            <tr>
+              <th>#</th>
+              <th>Title</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for item in view_model.done_items %}
+                <tr id='done_item_{{loop.index}}'>
+                  <td>{{loop.index}}</td>
+                  <td>{{item.title}}</td>
+                  <td>{{item.status}}</td>
+  
+                  <td class="d-flex justify-content-center">
+  
+                     <form action="{{ url_for('moveToDoing') }}" method="post">
+                      <input type="hidden" name="todo_id" value='{{ item.id}}'>
+                      <button type="submit" class="btn btn-outline-success mr-2">Doing</button>
+                    </form>
+
+                    <form action="{{ url_for('moveToTodo') }}" method="post">
+                      <input type="hidden" name="todo_id" value='{{ item.id}}'>
+                      <button type="submit" class="btn btn-outline-success mr-2">Repeat</button>
+                    </form>
+  
+                    <form action="{{ url_for('deleteItem') }}" method="post">
+                      <input type="hidden" name="todo_id" value='{{ item.id }}'>
+                      <button type="submit" class="btn btn-outline-danger ml-1"  onclick="return confirm('Are you sure?')">Delete</i></button>
+                    </form>
+  
+                  </td>
+                </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
   </div>
 {% endblock %}

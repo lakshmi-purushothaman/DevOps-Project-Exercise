@@ -1,0 +1,9 @@
+{
+    "python.testing.pytestArgs": [
+        "todo_app_tests", "todo_app_e2e_tests"
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.nosetestsEnabled": false,
+    "python.testing.pytestEnabled": true,
+    "python.pythonPath": ".venv/bin/python"
+}
