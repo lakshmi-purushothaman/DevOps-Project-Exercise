@@ -13,7 +13,7 @@ class TodoService:
         self.doing_list_id = None
         self.TRELLO_API_KEY = os.environ.get('TRELLO_API_KEY')
         self.TRELLO_TOKEN = os.environ.get('TRELLO_TOKEN')
-        self.TRELLO_BOARD_NAME = "Devops Course Project Board"
+        self.TRELLO_BOARD_NAME = os.environ.get('TRELLO_BOARD_NAME')
         self.setup_board()
 
     def _url(self, path):
@@ -33,6 +33,7 @@ class TodoService:
         }
         response = requests.post(self._url('boards'), params=query).json()
         self.board_id = response['id']
+        return self.board_id
     
     def members_board_lookup(self):
         """
@@ -67,6 +68,27 @@ class TodoService:
                 self.done_list_id = list['id']
             elif list['name'] == "Doing":
                 self.doing_list_id = list['id']
+
+    def delete_board(self, board_id):
+        query = {
+            'key': self.TRELLO_API_KEY,
+            'token': self.TRELLO_TOKEN,
+            'name': self.TRELLO_BOARD_NAME
+        }
+        response = requests.delete(self._url(f'boards/{board_id}'), params=query).json()
+        return response
+
+    def archive_cards(self):
+        board_list=[self.todo_list_id, self.doing_list_id, self.done_list_id]
+
+        query = {
+            'key': self.TRELLO_API_KEY,
+            'token': self.TRELLO_TOKEN,
+            'name': self.TRELLO_BOARD_NAME
+        }
+        for list_id in board_list:
+            response = requests.post(self._url(f'/lists/{list_id}/archiveAllCards'), params=query).json()
+        return response
 
     def get_items(self):
         """

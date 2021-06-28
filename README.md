@@ -36,12 +36,15 @@ The app uses TRELLO api's to store and manage the to-do items for our app, you w
 
 To create a TRELLO account [Create Account](https://trello.com/signup), then generate API Key and Token following the [Instructions](https://trello.com/app-key)
 
-And then add the generated API Key, Token that you want to create in the .env file under the following keys:
+Add the generated API Key, Token that you want to create in the .env file under the following keys:
 ```bash
 * TRELLO_API_KEY
 * TRELLO_TOKEN
 ```
-Trello board name is defaulted to 'Devops Course Project Board'
+Set Trello board name in the .env file with the following key:
+```bash
+* TRELLO_BOARD_NAME
+```
 ## Running the App
 
 Once the all dependencies have been installed, start the Flask app in development mode within the poetry environment by running:
@@ -61,7 +64,22 @@ You should see output similar to the following:
 ```
 Now visit [`http://localhost:5000/`](http://localhost:5000/) in your web browser to view the app.
 
-## App Usage
-The App allows to add a TODO item and view the TODO list of items
+## App Testing
+To run the tests (Unit and Integration), use the command ``poetry run pytest todo_app_tests``. This will run any test defined in a function
+matching the pattern ``test_*`` or ``*_test``, in any file matching the same patterns, in the ``todo_app_tests`` directory.
 
-Enter a TODO item and click on Submit to add the item to TODO list
+To run the selenium tests, use the command ``poetry run pytest todo_app_e2e_tests``. This will run any end to end tests defined in a function
+matching the pattern ``test_*`` or ``*_test``, in any file matching the same patterns, in the ``todo_app_e2e_tests`` directory.
+
+## App Usage
+The App allows to:
+```bash
+*Add a TODO item
+*Mark item as started
+*Mark item as completed
+*Repeat item from the completed list
+*Delete item within different lists
+*View the TODO list of items
+```
+
+Enter a TODO item and click on Add to add the item to TODO list

@@ -4,7 +4,7 @@
   <div class="row mb-4">
     <div class="col-md-12">
       <h2>Add Item</h2>
-        <form action="{{ url_for('addItem') }}" method="POST">
+        <form action="{{ url_for('addItem') }}" id="addTitleForm" method="POST">
           <div class="form-row">
             <div class="form-group col-md-8">
               <input type="text" class="form-control" name="title" id="title" required>
@@ -37,7 +37,7 @@
         </thead>
         <tbody>
           {% for item in view_model.todo_items %}
-              <tr>
+              <tr id='todo_item_{{loop.index}}'>
                 <td>{{loop.index}}</td>
                 <td>{{item.title}}</td>
                 <td>{{item.status}}</td>
@@ -46,7 +46,7 @@
 
                   <form action="{{ url_for('moveToDoing') }}" method="post">
                     <input type="hidden" name="todo_id" value='{{ item.id}}'>
-                    <button type="submit" class="btn btn-outline-success mr-2">Start</button>
+                    <button type="submit" id = "start_todo_item_{{loop.index}}" class="btn btn-outline-success mr-2">Start</button>
                   </form>
 
                   <form action="{{ url_for('deleteItem') }}" method="post">
@@ -76,7 +76,7 @@
           </thead>
           <tbody>
             {% for item in view_model.doing_items %}
-                <tr>
+                <tr id='doing_item_{{loop.index}}'>
                   <td>{{loop.index}}</td>
                   <td>{{item.title}}</td>
                   <td>{{item.status}}</td>
@@ -85,7 +85,7 @@
   
                      <form action="{{ url_for('moveToDone') }}" method="post">
                       <input type="hidden" name="todo_id" value='{{ item.id}}'>
-                      <button type="submit" class="btn btn-outline-success mr-2">Done</button>
+                      <button type="submit" id = "done_todo_item_{{loop.index}}" class="btn btn-outline-success mr-2">Done</button>
                     </form>
   
                     <form action="{{ url_for('deleteItem') }}" method="post">
@@ -115,7 +115,7 @@
           </thead>
           <tbody>
             {% for item in view_model.done_items %}
-                <tr>
+                <tr id='done_item_{{loop.index}}'>
                   <td>{{loop.index}}</td>
                   <td>{{item.title}}</td>
                   <td>{{item.status}}</td>
