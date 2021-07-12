@@ -8,7 +8,7 @@ from todo_app.ViewModel import ViewModel
 
 def create_app():
     app = Flask(__name__)
-    app.config.from_object(Config)  
+    app.config.from_object(Config())  
     
     todoService = TodoService()
 

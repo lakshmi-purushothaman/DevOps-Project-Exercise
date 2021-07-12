@@ -45,10 +45,11 @@ def driver():
     #Set up headless option for chrome driver
     chrome_options = webdriver.ChromeOptions()
     chrome_options.add_argument('--headless')
-
+    
     with webdriver.Chrome(options=chrome_options) as driver:
         yield driver
-
+    
+    
 @pytest.fixture(autouse=True) 
 def archive_cards():
     os.environ['TRELLO_BOARD_NAME'] = 'E2E_Test_Board' 
@@ -61,7 +62,7 @@ def test_task_journey(driver, app_with_temp_board):
 
 def test_add_task_journey(driver, app_with_temp_board):
     driver.get('http://localhost:5000')
-
+    
     task_title = driver.find_element_by_id('title')
     task_title.send_keys("Selenium Test Add")
     task_title.submit()
@@ -69,6 +70,8 @@ def test_add_task_journey(driver, app_with_temp_board):
         todo_item_added = WebDriverWait(driver, 5).until(
             EC.presence_of_element_located((By.ID, "todo_item_1")))
 
+        driver.find_element_by_id("todo_item_1")
+        
         assert "Selenium Test Add" in todo_item_added.text
     except TimeoutException:
         print ("Page taking too long to respond")
