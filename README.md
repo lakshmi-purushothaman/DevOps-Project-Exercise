@@ -71,7 +71,7 @@ matching the pattern ``test_*`` or ``*_test``, in any file matching the same pat
 To run the selenium tests, use the command ``poetry run pytest todo_app_e2e_tests``. This will run any end to end tests defined in a function
 matching the pattern ``test_*`` or ``*_test``, in any file matching the same patterns, in the ``todo_app_e2e_tests`` directory.
 
-Selenium tests use the Chrome driver, download the chrome driver from ['Chrome Driver Download'](https://sites.google.com/a/chromium.org/chromedriver/downloads) and install the chrome driver.
+Selenium tests use the Chrome driver, download the chrome driver from [`Chrome Driver Download`](https://sites.google.com/a/chromium.org/chromedriver/downloads) and install the chrome driver.
 
 On successfull installation of chrome driver set the install location to the PATH env variable
 
