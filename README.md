@@ -64,6 +64,26 @@ You should see output similar to the following:
 ```
 Now visit [`http://localhost:5000/`](http://localhost:5000/) in your web browser to view the app.
 
+## Vagrant Setup
+This app is setup to run on a virtual machine using Vagrant, which will setup the Todo App environment without having to worry about Python installation and it's dependecies
+
+### Vagrant Configuration
+Vagrant configuration support older styles for backwards compatibility
+
+### Vagrant prerequisities
+
+#### Hypervisor
+Vagrant requires Hypervisor, checkout ['VirtualBox'](https://www.virtualbox.org/)
+
+#### Vagrant
+Download and install Vagrant from ['Official Website'](https://www.vagrantup.com/)
+
+### Running Vagrant
+Launch Vagrant with a command 
+```bash
+$ Vagrant up
+```
+
 ## App Testing
 To run the tests (Unit and Integration), use the command ``poetry run pytest todo_app_tests``. This will run any test defined in a function
 matching the pattern ``test_*`` or ``*_test``, in any file matching the same patterns, in the ``todo_app_tests`` directory.
@@ -83,3 +103,5 @@ The App allows to:
 ```
 
 Enter a TODO item and click on Add to add the item to TODO list
+
+## Vagrant Setup
