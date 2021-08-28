@@ -91,6 +91,51 @@ matching the pattern ``test_*`` or ``*_test``, in any file matching the same pat
 To run the selenium tests, use the command ``poetry run pytest todo_app_e2e_tests``. This will run any end to end tests defined in a function
 matching the pattern ``test_*`` or ``*_test``, in any file matching the same patterns, in the ``todo_app_e2e_tests`` directory.
 
+## Docker Setup
+This app is dockerixed, which will setup the Todo App environment without having to worry about Python installation and it's dependecies.
+
+There are 2 docker environments that can be run:
+- Development
+- Production
+
+### To run Development docker environment
+```bash
+docker-compose up -d todo-app-development
+```
+Development environment is setup on port 5001
+
+### To run Production docker environment
+```bash
+docker-compose up -d todo-app-production
+```
+Production environment is setup on port 5000
+
+Alternatively, the todo app can also be run as follows:
+
+### To run Development environment
+- cd to the directory containing Dockerfile
+- Build a image
+```bash
+docker build --target development --tag todo-app:dev .
+```
+- Build a container
+```bash
+docker run --env-file .env -p 5001:5000 --mount type=bind,source="$(pwd)",target=/app/ todo-app:dev
+```
+Development environment is setup on port 5001
+
+### To run Production environment
+- cd to the directory containing Dockerfile
+- Build a image
+```bash
+docker build --target production --tag todo-app:prod .
+```
+- Build a container
+```bash
+docker run --env-file .env -p 5001:5000 --mount type=bind,source="$(pwd)",target=/app/ todo-app:prod
+```
+Production environment is setup on port 5000
+
 ## App Usage
 The App allows to:
 ```bash
