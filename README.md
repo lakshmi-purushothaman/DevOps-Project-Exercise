@@ -64,6 +64,13 @@ You should see output similar to the following:
 ```
 Now visit [`http://localhost:5000/`](http://localhost:5000/) in your web browser to view the app.
 
+## App Testing
+To run the tests (Unit and Integration), use the command ``poetry run pytest todo_app_tests``. This will run any test defined in a function
+matching the pattern ``test_*`` or ``*_test``, in any file matching the same patterns, in the ``todo_app_tests`` directory.
+
+To run the selenium tests, use the command ``poetry run pytest todo_app_e2e_tests``. This will run any end to end tests defined in a function
+matching the pattern ``test_*`` or ``*_test``, in any file matching the same patterns, in the ``todo_app_e2e_tests`` directory.
+
 ## Vagrant Setup
 This app is setup to run on a virtual machine using Vagrant, which will setup the Todo App environment without having to worry about Python installation and it's dependecies
 
@@ -84,15 +91,8 @@ Launch Vagrant with a command
 $ Vagrant up
 ```
 
-## App Testing
-To run the tests (Unit and Integration), use the command ``poetry run pytest todo_app_tests``. This will run any test defined in a function
-matching the pattern ``test_*`` or ``*_test``, in any file matching the same patterns, in the ``todo_app_tests`` directory.
-
-To run the selenium tests, use the command ``poetry run pytest todo_app_e2e_tests``. This will run any end to end tests defined in a function
-matching the pattern ``test_*`` or ``*_test``, in any file matching the same patterns, in the ``todo_app_e2e_tests`` directory.
-
 ## Docker Setup
-This app is dockerixed, which will setup the Todo App environment without having to worry about Python installation and it's dependecies.
+This app is dockerized, which will setup the Todo App environment without having to worry about Python installation and it's dependecies.
 
 There are 2 docker environments that can be run:
 - Development
@@ -110,7 +110,7 @@ docker-compose up -d todo-app-production
 ```
 Production environment is setup on port 5000
 
-Alternatively, the todo app can also be run as follows:
+### Alternatively, the todo app can also be run as follows:
 
 ### To run Development environment
 - cd to the directory containing Dockerfile
@@ -132,7 +132,7 @@ docker build --target production --tag todo-app:prod .
 ```
 - Build a container
 ```bash
-docker run --env-file .env -p 5001:5000 --mount type=bind,source="$(pwd)",target=/app/ todo-app:prod
+docker run --env-file .env -p 5000:5000 todo-app:prod
 ```
 Production environment is setup on port 5000
 
@@ -148,5 +148,3 @@ The App allows to:
 ```
 
 Enter a TODO item and click on Add to add the item to TODO list
-
-## Vagrant Setup
