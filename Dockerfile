@@ -5,9 +5,11 @@ RUN apt-get update && apt-get install -y curl && \
 
 ENV PATH="/root/.poetry/bin:${PATH}"
 
+RUN echo ${PATH}
+
 WORKDIR /app
 
-COPY pyproject.toml /app/
+COPY poetry.lock pyproject.toml /app/
 
 RUN poetry config virtualenvs.create false
 

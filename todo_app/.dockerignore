@@ -5,7 +5,7 @@
 .vagrant
 .vscode
 .env
-.venv
 .env.template
 .DS_Store
 Vagrantfile
+poetry.lock
