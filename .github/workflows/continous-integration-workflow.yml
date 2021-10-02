@@ -11,3 +11,8 @@ jobs:
     - name: Build the application
       run: |
         docker build --target development --tag todo-app:dev .
+    - name: Run the unit and integration tests
+      working-directory: .
+      run: | 
+        docker build --target test --tag todo-app:test .
+        docker run --env-file .env.test --mount type=bind,source="$(pwd)",target=/app/ todo-app:test todo_app_tests
