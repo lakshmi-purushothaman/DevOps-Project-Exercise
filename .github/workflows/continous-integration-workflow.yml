@@ -24,6 +24,7 @@ jobs:
         TRELLO_TOKEN: 546b3a441384d0d83b195b85d8e58c9643542c3974a20100284bfe639db057ad
         TRELLO_BOARD_NAME: E2E_Test_Board
       run: | 
+        echo "API KEY = $TRELLO_API_KEY"
         docker build --target e2etest --tag todo-app:e2etest .
         docker run --mount type=bind,source="$(pwd)",target=/app/ todo-app:e2etest todo_app_e2e_tests      
      
