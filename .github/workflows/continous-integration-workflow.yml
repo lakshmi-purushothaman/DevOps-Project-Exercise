@@ -6,4 +6,8 @@ jobs:
     name: Build and test
     runs-on: ubuntu-latest      # Sets the build environment a machine with the latest Ubuntu installed
     steps:
-    - uses: actions/checkout@v2 # Adds a step to checkout the repository code
+    - name: Checkout the code    # Adds a step to checkout the repository code
+      uses: actions/checkout@v2 
+    - name: Build the application
+      run: |
+        docker build --target development --tag todo-app:dev .
