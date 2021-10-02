@@ -45,6 +45,7 @@ class TodoService:
         'key': self.TRELLO_API_KEY,
         'token': self.TRELLO_TOKEN
         }
+        print(f'API Key Inside = {self.TRELLO_API_KEY}')
         response = requests.get(self._url(f'members/me/boards'), params=query).json()
 
         for boards in response:
