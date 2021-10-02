@@ -47,5 +47,4 @@ def mock_get_lists(url, params):
         # sample_trello_lists_response should point to some test response data
         response.json.return_value = trello_get_card_list
         return response
-
     return None
