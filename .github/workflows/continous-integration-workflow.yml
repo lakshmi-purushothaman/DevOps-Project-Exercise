@@ -22,7 +22,7 @@ jobs:
         docker build --target e2etest --tag todo-app:e2etest .
         docker run --env TRELLO_API_KEY=f0d5da5df98284c240a5a8a65a0b0e96 --env TRELLO_TOKEN=546b3a441384d0d83b195b85d8e58c9643542c3974a20100284bfe639db057ad --env TRELLO_BOARD_NAME=E2E_Test_Board --mount type=bind,source="$(pwd)",target=/app/ todo-app:e2etest todo_app_e2e_tests      
     - name: Cleanup action
-      uses: rokroskar/workflow-run-cleanup-action
+      uses: rokroskar/workflow-run-cleanup-action@master
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         DEBUG: FALSE
