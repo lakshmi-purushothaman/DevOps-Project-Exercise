@@ -20,7 +20,7 @@ jobs:
       working-directory: .
       run: | 
         docker build --target e2etest --tag todo-app:e2etest .
-        docker run --env SECRET_KEY=$SECRET_KEY --env TRELLO_API_KEY=$TRELLO_API_KEY --env TRELLO_TOKEN=$TRELLO_TOKEN --env TRELLO_BOARD_NAME=$TRELLO_BOARD_NAME todo-app:e2etest todo_app_e2e_tests      
+        docker run --env SECRET_KEY=${{ secrets.SECRET_KEY }} --env TRELLO_API_KEY=${{ secrets.TRELLO_API_KEY }} --env TRELLO_TOKEN=${{ secrets.TRELLO_TOKEN }} --env TRELLO_BOARD_NAME=${{ secrets.TRELLO_BOARD_NAME }} todo-app:e2etest todo_app_e2e_tests      
     - name: Cleanup action
       uses: rokroskar/workflow-run-cleanup-action@master
       env:
