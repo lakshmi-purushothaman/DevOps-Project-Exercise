@@ -136,6 +136,9 @@ docker run --env-file .env -p 5000:5000 todo-app:prod
 ```
 Production environment is setup on port 5000
 
+## CI Setup
+Github actions has been setup for this repository, every push will run the build defined.
+
 ## App Usage
 The App allows to:
 ```bash
