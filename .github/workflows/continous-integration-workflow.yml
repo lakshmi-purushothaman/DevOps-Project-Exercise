@@ -15,7 +15,7 @@ jobs:
       working-directory: .
       run: | 
         docker build --target test --tag todo-app:test .
-        docker run --env-file .env.test --mount type=bind,source="$(pwd)",target=/app/ todo-app:test todo_app_tests
+        docker run --env-file .env.test todo-app:test todo_app_tests
     - name: Run the e2e tests         
       working-directory: .
       run: | 
