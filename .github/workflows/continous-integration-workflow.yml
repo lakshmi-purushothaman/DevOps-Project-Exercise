@@ -29,7 +29,7 @@ jobs:
 
   # Production build
   productionbuild:
-    name: Build and test
+    name: Production Build and test
     runs-on: ubuntu-latest      # Sets the build environment a machine with the latest Ubuntu installed
     steps:
     - name: Checkout the code    # Adds a step to checkout the repository code
@@ -60,7 +60,7 @@ jobs:
       run:
         working-directory: .
     needs: productionbuild
-    if: github.ref == 'refs/heads/main'
+    #if: github.ref == 'refs/heads/main'
     steps:
     - name: Ckeckout the code
       uses: actions/checkout@v2 # Adds a step to checkout the repository code
