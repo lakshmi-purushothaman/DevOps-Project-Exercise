@@ -136,6 +136,27 @@ docker run --env-file .env -p 5000:5000 todo-app:prod
 ```
 Production environment is setup on port 5000
 
+### To run unit and integration tests
+- cd to the directory containing Dockerfile
+- Build a image
+```bash
+docker build --target test --tag todo-app:test .
+```
+- Build a container
+```bash
+docker run --env-file .env.test todo-app:test
+```
+
+### To run E2E Tests
+- cd to the directory containing Dockerfile
+- Build a image
+```bash
+docker build --target e2etest --tag todo-app:e2etest .
+```
+- Build a container
+```bash
+docker run --env SECRET_KEY=Your Trello Secret Key S --env TRELLO_API_KEY=Your Trello API Key --env TRELLO_TOKEN=Your Trello Token --env TRELLO_BOARD_NAME=Your Trello Board Name todo-app:e2etest
+```
 ## CI Setup
 Github actions has been setup for this repository, every push will run the build defined.
 

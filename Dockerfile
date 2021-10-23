@@ -29,7 +29,7 @@ ENTRYPOINT poetry run gunicorn --workers=2 --bind=0.0.0.0:5000 'todo_app.app:cre
 
 FROM parent as test
 
-ENTRYPOINT ["poetry", "run", "pytest"]
+ENTRYPOINT ["poetry", "run", "pytest", "todo_app_tests"]
 
 FROM parent as e2etest
 
