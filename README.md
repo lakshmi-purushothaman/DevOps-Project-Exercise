@@ -2,7 +2,7 @@
 
 ## Architecture Diagram
 
-[Architecture Diagrams](https://go.gliffy.com/go/share/s284x0ldwswfqfkx7o3o)
+[Architecture Diagram](https://go.gliffy.com/go/share/s284x0ldwswfqfkx7o3o)
 
 ## System Requirements
 
