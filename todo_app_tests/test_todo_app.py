@@ -9,8 +9,11 @@ from todo_app_tests.app_fixtures import trello_board_response, trello_lists_resp
 @pytest.fixture 
 def client():
     # Use our test integration config instead of the 'real' version 
-    file_path = find_dotenv('.env.test')
-    load_dotenv(file_path, override=True)
+    try:
+        file_path = find_dotenv('.env.test')
+        load_dotenv(file_path, override=True)
+    except OSError:
+        print(".env file not found")
 
     with patch('requests.get') as mock_get_requests:
         mock_get_requests.side_effect = mock_get_lists
@@ -44,5 +47,4 @@ def mock_get_lists(url, params):
         # sample_trello_lists_response should point to some test response data
         response.json.return_value = trello_get_card_list
         return response
-
     return None

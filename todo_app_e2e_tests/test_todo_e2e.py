@@ -39,12 +39,18 @@ def app_with_temp_board():
 @pytest.fixture(scope="module") 
 def driver():
     # Load the app config
-    file_path = find_dotenv('.env')
-    load_dotenv(file_path, override=True)
+    try:
+        file_path = find_dotenv('.env')
+        print(f'file_path: {file_path}')
+        load_dotenv(file_path, override=True)
+    except OSError:
+        print(".env file not found")
 
     #Set up headless option for chrome driver
     chrome_options = webdriver.ChromeOptions()
     chrome_options.add_argument('--headless')
+    chrome_options.add_argument('--no-sandbox')
+    chrome_options.add_argument('--disable-dev-shm-usage')
 
     with webdriver.Chrome(options=chrome_options) as driver:
         yield driver

@@ -1,0 +1,28 @@
+name: Continuous Integration
+on: [pull_request]                      # Will make the workflow run every time you push and riase PR to any branch
+
+jobs:
+  build:
+    name: Build and test
+    runs-on: ubuntu-latest      # Sets the build environment a machine with the latest Ubuntu installed
+    steps:
+    - name: Checkout the code    # Adds a step to checkout the repository code
+      uses: actions/checkout@v2 
+    - name: Build the application
+      run: |
+        docker build --target development --tag todo-app:dev .
+    - name: Run the unit and integration tests
+      working-directory: .
+      run: | 
+        docker build --target test --tag todo-app:test .
+        docker run --env-file .env.test todo-app:test
+    - name: Run the e2e tests         
+      working-directory: .
+      run: | 
+        docker build --target e2etest --tag todo-app:e2etest .
+        docker run --env SECRET_KEY=${{ secrets.SECRET_KEY }} --env TRELLO_API_KEY=${{ secrets.TRELLO_API_KEY }} --env TRELLO_TOKEN=${{ secrets.TRELLO_TOKEN }} --env TRELLO_BOARD_NAME=${{ secrets.TRELLO_BOARD_NAME }} todo-app:e2etest      
+    - name: Cleanup action
+      uses: rokroskar/workflow-run-cleanup-action@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    if: "!startsWith(github.ref, 'refs/tags/') && github.ref != 'refs/heads/master'"
