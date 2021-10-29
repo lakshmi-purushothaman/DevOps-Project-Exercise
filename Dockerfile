@@ -23,10 +23,6 @@ FROM parent as development
 
 ENTRYPOINT poetry run flask run --host=0.0.0.0
 
-FROM parent as production
-
-ENTRYPOINT poetry run gunicorn --workers=2 --bind=0.0.0.0:5000 'todo_app.app:create_app()'
-
 FROM parent as test
 
 ENTRYPOINT ["poetry", "run", "pytest", "todo_app_tests"]
@@ -51,3 +47,9 @@ RUN CHROME_MAJOR_VERSION=$(google-chrome --version | sed -E "s/.* ([0-9]+)(\.[0-
   && chmod 755 /usr/bin/chromedriver
 
 ENTRYPOINT ["poetry", "run", "pytest", "todo_app_e2e_tests"]
+
+FROM parent as production
+RUN chmod +x ./gunicorn-entrypoint.sh
+ENTRYPOINT ./gunicorn-entrypoint.sh
+
+#ENTRYPOINT poetry run gunicorn --workers=2 --bind=0.0.0.0:5000 'todo_app.app:create_app()'

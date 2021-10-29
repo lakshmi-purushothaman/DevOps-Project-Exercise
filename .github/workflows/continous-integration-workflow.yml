@@ -36,7 +36,7 @@ jobs:
       uses: actions/checkout@v2 
     - name: Build the application
       run: |
-        docker build --target production --tag todo-app:prod .
+        docker build --target production --tag lakshmips/todo-app-service .
     - name: Run the unit and integration tests
       working-directory: .
       run: | 
