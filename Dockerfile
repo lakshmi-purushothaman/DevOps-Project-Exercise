@@ -51,5 +51,3 @@ ENTRYPOINT ["poetry", "run", "pytest", "todo_app_e2e_tests"]
 FROM parent as production
 RUN chmod +x ./gunicorn-entrypoint.sh
 ENTRYPOINT ./gunicorn-entrypoint.sh
-
-#ENTRYPOINT poetry run gunicorn --workers=2 --bind=0.0.0.0:5000 'todo_app.app:create_app()'
