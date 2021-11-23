@@ -1,5 +1,8 @@
 name: Continuous Integration
-on: [push]                      # Will make the workflow run every time you push and riase PR to any branch
+on:  #[push]                      Will make the workflow run every time you push and riase PR to any branch
+  push:
+    branches:
+      - exercise-8
 
 jobs:
   build:
@@ -55,7 +58,7 @@ jobs:
       run:
         working-directory: .
     needs: productionbuild
-    #if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/exercise-8'
     steps:
     - name: Ckeckout the code
       uses: actions/checkout@v2 # Adds a step to checkout the repository code
@@ -74,3 +77,4 @@ jobs:
         heroku_api_key: ${{secrets.HEROKU_API_KEY}}
         heroku_app_name: "todoapp-devops" #Must be unique in Heroku
         heroku_email: "lakshmi.purushothamk@gmail.com"
+        usedocker: true
