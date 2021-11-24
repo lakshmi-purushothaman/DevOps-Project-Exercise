@@ -160,6 +160,9 @@ docker run --env SECRET_KEY=Your Trello Secret Key S --env TRELLO_API_KEY=Your T
 ## CI Setup
 Github actions has been setup for this repository, every push will run the build defined.
 
+## CD Setup
+Github actions has been setup for this repository, every push will run the build defined.
+
 ## App Usage
 The App allows to:
 ```bash
