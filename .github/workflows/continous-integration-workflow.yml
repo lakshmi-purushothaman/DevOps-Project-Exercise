@@ -1,8 +1,6 @@
 name: Continuous Integration
-on:  #[push]                      Will make the workflow run every time you push and riase PR to any branch
-  push:
-    branches:
-      - exercise-8
+on:  [push]                      Will make the workflow run every time you push and riase PR to any branch
+
 
 jobs:
   build:
