@@ -161,7 +161,20 @@ docker run --env SECRET_KEY=Your Trello Secret Key S --env TRELLO_API_KEY=Your T
 Github actions has been setup for this repository, every push will run the build defined.
 
 ## CD Setup
-Github actions has been setup for this repository, every push will run the build defined.
+Github actions continuous deployment pipeline has been setup for this repository such that, every push to main branch:
+- Automatically builds and deploys to Heroku
+- Pushes the images to Docker Hub
+
+Add the following github secrets for the CD pipeline to work automatically:
+- DOCKER_PASSWORD = Your Docker Password
+- DOCKER_USERNAME = Your Docker Username
+- HEROKU_API_KEY = Your Heroku API Key
+- HEROKU_EMAIL = Your HEroku Email Address
+- PORT = Heroku app listens on a port defined here
+- SECRET_KEY = Secret Key
+- TRELLO_API_KEY = Your Trello API Key
+- TRELLO_BOARD_NAME = Trello Board Name
+- TRELLO_TOKEN = Your Trello Token
 
 ## App Usage
 The App allows to:
