@@ -189,7 +189,7 @@ class TodoService:
 
     def delete_item(self, id):
         """
-        Delets an existing item in the Trello board.
+        Deletes an existing item in the Trello board.
 
         Args:
             item: The item to delete.
