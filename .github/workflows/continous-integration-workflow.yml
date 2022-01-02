@@ -21,7 +21,7 @@ jobs:
       working-directory: .
       run: | 
         docker build --target e2etest --tag todo-app:e2etest .
-        docker run --env SECRET_KEY=${{ secrets.SECRET_KEY }} --env TRELLO_API_KEY=${{ secrets.TRELLO_API_KEY }} --env TRELLO_TOKEN=${{ secrets.TRELLO_TOKEN }} --env TRELLO_BOARD_NAME=${{ secrets.TRELLO_BOARD_NAME }} --env MONGO_CONNECTION_STRING=${{ secrets.MONGO_CONNECTION_STRING }} --env DBNAME=${{ secrets.DBNAME }} --env COLLECTIONAME=${{ secrets.COLLECTIONAME }} todo-app:e2etest      
+        docker run --env SECRET_KEY=${{ secrets.SECRET_KEY }} --env MONGO_CONNECTION_STRING=${{ secrets.MONGO_CONNECTION_STRING }} --env DBNAME=${{ secrets.DBNAME }} --env COLLECTIONAME=${{ secrets.COLLECTIONAME }} todo-app:e2etest
     - name: Cleanup action
       uses: rokroskar/workflow-run-cleanup-action@master
       env:
@@ -56,7 +56,7 @@ jobs:
       run:
         working-directory: .
     needs: productionbuild
-    if: github.ref == 'refs/heads/master'
+    #if: github.ref == 'refs/heads/master'
     steps:
     - name: Ckeckout the code
       uses: actions/checkout@v2 # Adds a step to checkout the repository code
