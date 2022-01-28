@@ -1,6 +1,6 @@
 """Integration tests for todo.py"""
 
-import pytest
+import pytest, mongomock, os, pymongo
 from todo_app import app
 from dotenv import find_dotenv, load_dotenv
 from unittest.mock import patch, Mock
@@ -15,20 +15,26 @@ def client():
     except OSError:
         print(".env file not found")
 
-    with patch('requests.get') as mock_get_requests:
-        mock_get_requests.side_effect = mock_get_lists
-        
-        # Create the new app. 
+     # Create the new app. 
+    with mongomock.patch(servers=(('fakemongo.com', 27017),)): 
         test_app = app.create_app()
-
         # Use the app to create a test_client that can be used in our tests.
-        with test_app.test_client() as client: 
+        with test_app.test_client() as client:
+            setup_test_data()
             yield client
+
+def setup_test_data():
+    connection = pymongo.MongoClient(os.getenv("MONGO_CONNECTION_STRING"))
+    db = connection[os.getenv("DBNAME")]
+    collection = db[os.getenv("COLLECTIONAME")]
+    # Creating item document and inserting to items collection
+    card = {"name":"Test_First_Task", "status": "Todo"}
+    collection.insert_one(card)
 
 def test_index_page(client):
     response = client.get('/')
     assert response.status_code == 200
-    assert 'Study' in response.data.decode()
+    assert 'Test_First_Task' in response.data.decode()
 
 
 def mock_get_lists(url, params):

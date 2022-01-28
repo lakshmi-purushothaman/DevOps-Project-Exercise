@@ -1,6 +1,6 @@
-import os, pytest
+import os, pytest, time
 from threading import Thread
-from todo_app.data.todo import TodoService
+from todo_app.data.todomongo import TodoMongoAccessService
 from todo_app import app
 from dotenv import find_dotenv, load_dotenv
 
@@ -14,14 +14,9 @@ from selenium.common.exceptions import TimeoutException
 
 
 @pytest.fixture(scope='module') 
-def app_with_temp_board():
+def app_with_temp_data():
     # Create the new board & update the board id environment variable
-    os.environ['TRELLO_BOARD_NAME'] = 'E2E_Test_Board' 
-
-    todoService = TodoService()
-
-    board_id = todoService.board_id
-    print(f'board id = {board_id}')
+    os.environ['DBNAME'] = 'E2E_Test_DB' 
 
     # construct the new application
     application = app.create_app() 
@@ -31,10 +26,6 @@ def app_with_temp_board():
     thread.daemon = True 
     thread.start()
     yield application
-
-    # Tear Down
-    thread.join(1) 
-    todoService.delete_board(board_id)
 
 @pytest.fixture(scope="module") 
 def driver():
@@ -56,17 +47,15 @@ def driver():
         yield driver
 
 @pytest.fixture(autouse=True) 
-def archive_cards():
-    os.environ['TRELLO_BOARD_NAME'] = 'E2E_Test_Board' 
-    todoService = TodoService()
-    todoService.archive_cards()
+def delete_database():
+    TodoMongoAccessService().client.drop_database(os.getenv("DBNAME"), session=None)
 
-def test_task_journey(driver, app_with_temp_board):
-    driver.get('http://localhost:5000')
+def test_task_journey(driver, app_with_temp_data):
+    driver.get('http://127.0.0.1:5000')
     assert driver.title == "To-Do App"
 
-def test_add_task_journey(driver, app_with_temp_board):
-    driver.get('http://localhost:5000')
+def test_add_task_journey(driver, app_with_temp_data):
+    driver.get('http://127.0.0.1:5000')
 
     task_title = driver.find_element_by_id('title')
     task_title.send_keys("Selenium Test Add")
@@ -79,8 +68,8 @@ def test_add_task_journey(driver, app_with_temp_board):
     except TimeoutException:
         print ("Page taking too long to respond")
 
-def test_move_to_doing_task_journey(driver, app_with_temp_board):
-    driver.get('http://localhost:5000')
+def test_move_to_doing_task_journey(driver, app_with_temp_data):
+    driver.get('http://127.0.0.1:5000')
 
     task_title = driver.find_element_by_id('title')
     task_title.send_keys("Selenium Test Started")
@@ -102,8 +91,8 @@ def test_move_to_doing_task_journey(driver, app_with_temp_board):
     except TimeoutException:
         print ("Page taking too long to respond")
 
-def test_move_to_done_task_journey(driver, app_with_temp_board):
-    driver.get('http://localhost:5000')
+def test_move_to_done_task_journey(driver, app_with_temp_data):
+    driver.get('http://127.0.0.1:5000')
     #Adding a card
     task_title = driver.find_element_by_id('title')
     task_title.send_keys("Selenium Test Completed")

@@ -159,7 +159,7 @@ docker build --target e2etest --tag todo-app:e2etest .
 ```
 - Build a container
 ```bash
-docker run --env SECRET_KEY=Your Trello Secret Key S --env TRELLO_API_KEY=Your Trello API Key --env TRELLO_TOKEN=Your Trello Token --env TRELLO_BOARD_NAME=Your Trello Board Name todo-app:e2etest
+docker run --env SECRET_KEY=Your Trello Secret Key S --env MONGO_CONNECTION_STRING=Your Mongo Connection String --env DBNAME=Mongo DB Name --env COLLECTIONAME=Mongo Collection Name todo-app:e2etest
 ```
 ## CI Setup
 Github actions has been setup for this repository, every push will run the build defined.
@@ -176,9 +176,9 @@ Add the following github secrets for the CD pipeline to work automatically:
 - HEROKU_EMAIL = Your HEroku Email Address
 - PORT = Heroku app listens on a port defined here
 - SECRET_KEY = Secret Key
-- TRELLO_API_KEY = Your Trello API Key
-- TRELLO_BOARD_NAME = Trello Board Name
-- TRELLO_TOKEN = Your Trello Token
+- MONGO_CONNECTION_STRING = Your Mongo Connection String
+- DBNAME = Mongo DB Name
+- COLLECTIONAME = Mongo Collection Name
 
 ## App Usage
 The App allows to:
