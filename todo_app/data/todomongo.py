@@ -48,7 +48,6 @@ class TodoMongoAccessService:
         Args:
             item: The item to save.
         """
-        card = self.collection.find_one({"_id":ObjectId(id)})
         self.collection.update_one({"_id":ObjectId(id)}, {"$set":{"status": status}})
 
     def delete_item(self, id):
@@ -58,5 +57,4 @@ class TodoMongoAccessService:
         Args:
             item: The item to delete.
         """
-        card = self.collection.find_one({"_id":ObjectId(id)})
         self.collection.delete_one({"_id":ObjectId(id)})
