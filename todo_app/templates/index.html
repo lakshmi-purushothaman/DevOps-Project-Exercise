@@ -1,28 +1,31 @@
 {% extends "layout.html" %}
 {% block title %}To-Do App{% endblock %}
 {% block content %}
-  <div class="row mb-4">
-    <div class="col-md-12">
-      <h2>Add Item</h2>
-        <form action="{{ url_for('addItem') }}" id="addTitleForm" method="POST">
-          <div class="form-row">
-            <div class="form-group col-md-8">
-              <input type="text" class="form-control" name="title" id="title" required>
-            </div>
-            <div class="form-group col-md-3">
-              <input type="submit" class="btn btn-success btn-block" value="Add">
-            </div>
-          </div> 
-        </form>
-        {% with error_messages = get_flashed_messages() %}
-        {% if error_messages %}
-          {% for error_message in error_messages %}
-            <p class="text-danger">{{ error_message }}</p>
-          {% endfor %}
-        {% endif %}
-      {% endwith %}
+  {% if view_model.user_role == 'writer' %}
+
+    <div class="row mb-4">
+      <div class="col-md-12">
+        <h2>Add Item</h2>
+          <form action="{{ url_for('addItem') }}" id="addTitleForm" method="POST">
+            <div class="form-row">
+              <div class="form-group col-md-8">
+                <input type="text" class="form-control" name="title" id="title" required>
+              </div>
+              <div class="form-group col-md-3">
+                <input type="submit" class="btn btn-success btn-block" value="Add">
+              </div>
+            </div> 
+          </form>
+          {% with error_messages = get_flashed_messages() %}
+          {% if error_messages %}
+            {% for error_message in error_messages %}
+              <p class="text-danger">{{ error_message }}</p>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+      </div>
     </div>
-  </div>
+  {% endif %}
   <div class="row">
     <div class="col-md-12">
       <h2>To Do Items</h2>
@@ -41,20 +44,21 @@
                 <td>{{loop.index}}</td>
                 <td>{{item.title}}</td>
                 <td>{{item.status}}</td>
+                {% if view_model.user_role == 'writer' %}
+                  <td class="d-flex justify-content-center">
+                    
+                    <form action="{{ url_for('moveToDoing') }}" method="post">
+                      <input type="hidden" name="todo_id" value='{{ item.id}}'>
+                      <button type="submit" id = "start_todo_item_{{loop.index}}" class="btn btn-outline-success mr-2">Start</button>
+                    </form>
 
-                <td class="d-flex justify-content-center">
-
-                  <form action="{{ url_for('moveToDoing') }}" method="post">
-                    <input type="hidden" name="todo_id" value='{{ item.id}}'>
-                    <button type="submit" id = "start_todo_item_{{loop.index}}" class="btn btn-outline-success mr-2">Start</button>
-                  </form>
-
-                  <form action="{{ url_for('deleteItem') }}" method="post">
-                    <input type="hidden" name="todo_id" value='{{ item.id }}'>
-                    <button type="submit" class="btn btn-outline-danger ml-1"  onclick="return confirm('Are you sure?')">Delete</i></button>
-                  </form>
-
-                </td>
+                    <form action="{{ url_for('deleteItem') }}" method="post">
+                      <input type="hidden" name="todo_id" value='{{ item.id }}'>
+                      <button type="submit" class="btn btn-outline-danger ml-1"  onclick="return confirm('Are you sure?')">Delete</i></button>
+                    </form>
+                    
+                  </td>
+                  {% endif %}
               </tr>
           {% endfor %}
         </tbody>
@@ -80,20 +84,22 @@
                   <td>{{loop.index}}</td>
                   <td>{{item.title}}</td>
                   <td>{{item.status}}</td>
-  
-                  <td class="d-flex justify-content-center">
-  
-                     <form action="{{ url_for('moveToDone') }}" method="post">
-                      <input type="hidden" name="todo_id" value='{{ item.id}}'>
-                      <button type="submit" id = "done_todo_item_{{loop.index}}" class="btn btn-outline-success mr-2">Done</button>
-                    </form>
-  
-                    <form action="{{ url_for('deleteItem') }}" method="post">
-                      <input type="hidden" name="todo_id" value='{{ item.id }}'>
-                      <button type="submit" class="btn btn-outline-danger ml-1"  onclick="return confirm('Are you sure?')">Delete</i></button>
-                    </form>
-  
-                  </td>
+                  {% if view_model.user_role == 'writer' %}
+
+                    <td class="d-flex justify-content-center">
+    
+                      <form action="{{ url_for('moveToDone') }}" method="post">
+                        <input type="hidden" name="todo_id" value='{{ item.id}}'>
+                        <button type="submit" id = "done_todo_item_{{loop.index}}" class="btn btn-outline-success mr-2">Done</button>
+                      </form>
+    
+                      <form action="{{ url_for('deleteItem') }}" method="post">
+                        <input type="hidden" name="todo_id" value='{{ item.id }}'>
+                        <button type="submit" class="btn btn-outline-danger ml-1"  onclick="return confirm('Are you sure?')">Delete</i></button>
+                      </form>
+    
+                    </td>
+                  {% endif %}
                 </tr>
             {% endfor %}
           </tbody>
@@ -119,25 +125,28 @@
                   <td>{{loop.index}}</td>
                   <td>{{item.title}}</td>
                   <td>{{item.status}}</td>
-  
-                  <td class="d-flex justify-content-center">
-  
-                     <form action="{{ url_for('moveToDoing') }}" method="post">
-                      <input type="hidden" name="todo_id" value='{{ item.id}}'>
-                      <button type="submit" class="btn btn-outline-success mr-2">Doing</button>
-                    </form>
+                  
+                  {% if view_model.user_role == 'writer' %}
 
-                    <form action="{{ url_for('moveToTodo') }}" method="post">
-                      <input type="hidden" name="todo_id" value='{{ item.id}}'>
-                      <button type="submit" class="btn btn-outline-success mr-2">Repeat</button>
-                    </form>
-  
-                    <form action="{{ url_for('deleteItem') }}" method="post">
-                      <input type="hidden" name="todo_id" value='{{ item.id }}'>
-                      <button type="submit" class="btn btn-outline-danger ml-1"  onclick="return confirm('Are you sure?')">Delete</i></button>
-                    </form>
-  
-                  </td>
+                    <td class="d-flex justify-content-center">
+    
+                      <form action="{{ url_for('moveToDoing') }}" method="post">
+                        <input type="hidden" name="todo_id" value='{{ item.id}}'>
+                        <button type="submit" class="btn btn-outline-success mr-2">Doing</button>
+                      </form>
+
+                      <form action="{{ url_for('moveToTodo') }}" method="post">
+                        <input type="hidden" name="todo_id" value='{{ item.id}}'>
+                        <button type="submit" class="btn btn-outline-success mr-2">Repeat</button>
+                      </form>
+    
+                      <form action="{{ url_for('deleteItem') }}" method="post">
+                        <input type="hidden" name="todo_id" value='{{ item.id }}'>
+                        <button type="submit" class="btn btn-outline-danger ml-1"  onclick="return confirm('Are you sure?')">Delete</i></button>
+                      </form>
+    
+                    </td>
+                  {% endif %}
                 </tr>
             {% endfor %}
           </tbody>

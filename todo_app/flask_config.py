@@ -4,7 +4,7 @@ import os
 class Config:
     def __init__(self):
         """Base configuration variables."""
-        SECRET_KEY = os.environ.get('SECRET_KEY')
+        SECRET_KEY = os.getenv('SECRET_KEY')
         #API Key and token for Trello
         TRELLO_API_KEY=os.environ.get('TRELLO_API_KEY')
         TRELLO_TOKEN=os.environ.get('TRELLO_TOKEN')

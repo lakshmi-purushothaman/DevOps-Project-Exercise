@@ -19,7 +19,7 @@ def test_get_todo_items():
                 Item(id=1, title='TDD Test', status='Todo'), 
                 Item(id=2, title='TDD Test', status='Todo'),
             ]
-    todo_items_list = ViewModel(items).todo_items
+    todo_items_list = ViewModel(items,'writer').todo_items
     assert len(todo_items_list) > 0
 
 def test_get_done_items():
@@ -27,7 +27,7 @@ def test_get_done_items():
                 Item(id=1, title='TDD Test', status='Done'), 
                 Item(id=2, title='TDD Test', status='Done'),
             ]
-    done_items_list = ViewModel(items).done_items
+    done_items_list = ViewModel(items,'writer').done_items
     assert len(done_items_list) > 0
 
 def test_get_doing_items():
@@ -35,5 +35,20 @@ def test_get_doing_items():
                 Item(id=1, title='TDD Test', status='Doing'), 
                 Item(id=2, title='TDD Test', status='Doing'),
             ]
-    doing_items_list = ViewModel(items).doing_items
+    doing_items_list = ViewModel(items,'writer').doing_items
     assert len(doing_items_list) > 0
+def test_writer_role():
+    items = [
+                Item(id=1, title='TDD Test', status='Doing'), 
+                Item(id=2, title='TDD Test', status='Doing'),
+            ]
+    current_user_role = ViewModel(items,'writer').user_role
+    assert current_user_role == 'writer'
+
+def test_reader_role():
+    items = [
+                Item(id=1, title='TDD Test', status='Doing'), 
+                Item(id=2, title='TDD Test', status='Doing'),
+            ]
+    current_user_role = ViewModel(items,'reader').user_role
+    assert current_user_role == 'reader'

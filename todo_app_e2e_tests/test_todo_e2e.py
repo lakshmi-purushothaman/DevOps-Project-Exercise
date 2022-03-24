@@ -16,7 +16,8 @@ from selenium.common.exceptions import TimeoutException
 @pytest.fixture(scope='module') 
 def app_with_temp_data():
     # Create the new board & update the board id environment variable
-    os.environ['DBNAME'] = 'E2E_Test_DB' 
+    os.environ['DBNAME'] = "E2E_Test_DB"
+    os.environ['LOGIN_DISABLED'] = 'True'
 
     # construct the new application
     application = app.create_app() 
@@ -48,6 +49,7 @@ def driver():
 
 @pytest.fixture(autouse=True) 
 def delete_database():
+    print("Inside Delete")
     TodoMongoAccessService().client.drop_database(os.getenv("DBNAME"), session=None)
 
 def test_task_journey(driver, app_with_temp_data):
