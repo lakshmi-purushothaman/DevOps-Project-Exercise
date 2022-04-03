@@ -1,7 +1,5 @@
 from flask import Flask, render_template, request, redirect, flash, url_for
 
-from todo_app.flask_config import Config
-
 from todo_app.data.todo import TodoService
 
 from todo_app.ViewModel import ViewModel
@@ -18,7 +16,6 @@ from todo_app.User import User, MyAnonymousUser
 
 def create_app():
     app = Flask(__name__)
-    app.config.from_object(Config)  
     todoMongoService = TodoMongoAccessService()
 
     github_oauth_client_id = os.getenv('CLIENT_ID')

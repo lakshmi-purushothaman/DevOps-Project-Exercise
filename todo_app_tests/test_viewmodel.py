@@ -21,6 +21,8 @@ def test_get_todo_items():
             ]
     todo_items_list = ViewModel(items,'writer').todo_items
     assert len(todo_items_list) > 0
+    for item in todo_items_list:
+        assert item.status == 'Todo'
 
 def test_get_done_items():
     items = [
@@ -29,6 +31,8 @@ def test_get_done_items():
             ]
     done_items_list = ViewModel(items,'writer').done_items
     assert len(done_items_list) > 0
+    for item in done_items_list:
+        assert item.status == 'Done'
 
 def test_get_doing_items():
     items = [
@@ -37,6 +41,8 @@ def test_get_doing_items():
             ]
     doing_items_list = ViewModel(items,'writer').doing_items
     assert len(doing_items_list) > 0
+    for item in doing_items_list:
+        assert item.status == 'Doing'
 def test_writer_role():
     items = [
                 Item(id=1, title='TDD Test', status='Doing'), 
