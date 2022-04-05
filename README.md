@@ -161,6 +161,12 @@ docker build --target e2etest --tag todo-app:e2etest .
 ```bash
 docker run --env SECRET_KEY=Your Trello Secret Key S --env MONGO_CONNECTION_STRING=Your Mongo Connection String --env DBNAME=Mongo DB Name --env COLLECTIONAME=Mongo Collection Name todo-app:e2etest
 ```
+## Authentication and Authorisation
+To avoid todo app being publicly accessible and restrict who can add new ones, GitHub Authentication using OAuth flow is used to authenticate and authorize
+
+Please register the app using the following URL ['Github documentation'](https://docs.github.com/en/developers/apps/building-oauth-apps/creating-an-oauth-app) , to create OAuth app
+
+
 ## CI Setup
 Github actions has been setup for this repository, every push will run the build defined.
 
@@ -181,6 +187,7 @@ Add the following github secrets for the CD pipeline to work automatically:
 - COLLECTIONAME = Mongo Collection Name
 
 ## App Usage
+App will authenticate users with github authentication using OAuth flow, currently only the admin user with writer role can perform the below actions and other users with reader role can only view the app
 The App allows to:
 ```bash
 *Add a TODO item
