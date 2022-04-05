@@ -185,10 +185,6 @@ Add the following github secrets for the CD pipeline to work automatically:
 - MONGO_CONNECTION_STRING = Your Mongo Connection String
 - DBNAME = Mongo DB Name
 - COLLECTIONAME = Mongo Collection Name
-- CLIENT_ID = Github OAuth Client Id
-- CLIENT_SECRET = Github OAuth Client Secret
-- OAUTHLIB_INSECURE_TRANSPORT = 1
-- SECRET_KEY = App Secret key, set it to something unique 
 
 ## App Usage
 App will authenticate users with github authentication using OAuth flow, currently only the admin user with writer role can perform the below actions and other users with reader role can only view the app
