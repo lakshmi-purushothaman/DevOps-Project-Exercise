@@ -56,7 +56,7 @@ jobs:
       run:
         working-directory: .
     needs: productionbuild
-    if: github.ref == 'refs/heads/master'
+    #if: github.ref == 'refs/heads/master'
     steps:
     - name: Ckeckout the code
       uses: actions/checkout@v2 # Adds a step to checkout the repository code
