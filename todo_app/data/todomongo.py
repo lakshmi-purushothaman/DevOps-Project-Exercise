@@ -1,7 +1,5 @@
 from bson.objectid import ObjectId
-import pymongo
-import os
-
+import os, pymongo
 from todo_app.data.Item import Item
 
 

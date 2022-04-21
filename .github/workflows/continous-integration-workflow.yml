@@ -76,3 +76,5 @@ jobs:
         heroku_app_name: "todoapp-devops" #Must be unique in Heroku
         heroku_email: ${{secrets.HEROKU_EMAIL}}
         usedocker: true
+    - name: Publish to Azure
+      run: curl -dH -X POST ${{secrets.WEBHOOK_URL}}
