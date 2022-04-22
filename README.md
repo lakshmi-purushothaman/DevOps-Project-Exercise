@@ -185,6 +185,10 @@ Add the following github secrets for the CD pipeline to work automatically:
 - MONGO_CONNECTION_STRING = Your Mongo Connection String
 - DBNAME = Mongo DB Name
 - COLLECTIONAME = Mongo Collection Name
+- WEBHOOK_URL = Azure Webhook URL to pull the image from Docker Hub and redeploy/restart
+
+## Azure Deployment 
+App is deployed to Azure ['https://laks-devops-todoapp.azurewebsites.net'](https://laks-devops-todoapp.azurewebsites.net)
 
 ## App Usage
 App will authenticate users with github authentication using OAuth flow, currently only the admin user with writer role can perform the below actions and other users with reader role can only view the app
